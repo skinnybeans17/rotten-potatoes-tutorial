@@ -3,6 +3,9 @@ const app = express()
 
 var exphbs = require('express-handlebars');
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
+
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
@@ -25,8 +28,13 @@ app.get('/', (req, res) => {
       })
   })
 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
+Reviews.find()
+.then(review => {
+    // Code in here is executed when the promise resolves
+})
+.catch(err => {
+    // executed if the promise is rejected
+});
 
 const Review = mongoose.model('Review', {
     title: String,
