@@ -15,11 +15,6 @@ app.use(methodOverride('_method'))
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-let reviews = [
-    { title: "Great Review", movieTitle: "Batman II" },
-    { title: "Awesome Movie", movieTitle: "Titanic" }
-]
-
 //var reviews = [
 //    { title: "Great Review", movieTitle: "Batman II" },
 //    { title: "Awesome Movie", movieTitle: "Titanic" }
@@ -30,6 +25,8 @@ const Review = mongoose.model('Review', {
     description: String,
     movieTitle: String
   });
+
+const reviews = require('./controllers/reviews')(app);
 
 app.get('/', (req, res) => {
 res.render('reviews-index', { reviews: reviews });
