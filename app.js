@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser');
 
 var exphbs = require('express-handlebars');
 
@@ -8,6 +9,8 @@ mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true 
 
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //var reviews = [
 //    { title: "Great Review", movieTitle: "Batman II" },
@@ -36,8 +39,22 @@ Reviews.find()
     // executed if the promise is rejected
 });
 
+app.get('/reviews/new', (req, res) => {
+    res.render('reviews-new', {});
+  })
+
+app.post('/reviews', (req, res) => {
+    Review.create(req.body).then((review) => {
+        console.log(review);
+        res.redirect('/');
+    }).catch((err) => {
+        console.log(err.message);
+    })
+})
+
 const Review = mongoose.model('Review', {
     title: String,
+    description: String,
     movieTitle: String
   });
 
