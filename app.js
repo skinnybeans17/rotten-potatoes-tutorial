@@ -20,11 +20,7 @@ app.set('view engine', 'handlebars');
 //    { title: "Awesome Movie", movieTitle: "Titanic" }
 //]
   
-const Review = mongoose.model('Review', {
-    title: String,
-    description: String,
-    movieTitle: String
-  });
+const Review = require('./models/review')
 
 const reviews = require('./controllers/reviews')(app);
 
@@ -41,14 +37,6 @@ app.get('/', (req, res) => {
         console.log(err);
       })
   })
-
-Reviews.find()
-.then(review => {
-    // Code in here is executed when the promise resolves
-})
-.catch(err => {
-    // executed if the promise is rejected
-});
 
 app.get('/reviews/new', (req, res) => {
     res.render('reviews-new', {title: "New Review"});
@@ -87,6 +75,14 @@ app.delete('/reviews/:id', function (req, res) {
       console.log(err.message);
     })
   })
+
+Reviews.find()
+.then(review => {
+    // Code in here is executed when the promise resolves
+})
+.catch(err => {
+    // executed if the promise is rejected
+});
 
 app.listen(3000, () => {
   console.log('App listening on port 3000!')
