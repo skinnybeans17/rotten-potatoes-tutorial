@@ -1,14 +1,11 @@
 const express = require('express')
 const methodOverride = require('method-override')
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 
 const app = express()
 
 var exphbs = require('express-handlebars');
 
-mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
-
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
 
@@ -16,13 +13,23 @@ app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 //var reviews = [
-//    { title: "Great Review", movieTitle: "Batman II" },
-//    { title: "Awesome Movie", movieTitle: "Titanic" }
+    //{ title: "Great Review", movieTitle: "Batman II" },
+    //{ title: "Awesome Movie", movieTitle: "Titanic" }
 //]
   
 const Review = require('./models/review')
 
 const reviews = require('./controllers/reviews')(app);
+
+module.exports = app;
+
+Reviews.find()
+.then(review => {
+    // Code in here is executed when the promise resolves
+})
+.catch(err => {
+    // executed if the promise is rejected
+});
 
 app.get('/', (req, res) => {
 res.render('reviews-index', { reviews: reviews });
@@ -75,14 +82,6 @@ app.delete('/reviews/:id', function (req, res) {
       console.log(err.message);
     })
   })
-
-Reviews.find()
-.then(review => {
-    // Code in here is executed when the promise resolves
-})
-.catch(err => {
-    // executed if the promise is rejected
-});
 
 app.listen(3000, () => {
   console.log('App listening on port 3000!')
