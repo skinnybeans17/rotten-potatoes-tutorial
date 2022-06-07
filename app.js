@@ -9,11 +9,10 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
 
-var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
-
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
+
+module.exports = app;
 
 //var reviews = [
     //{ title: "Great Review", movieTitle: "Batman II" },
@@ -23,15 +22,9 @@ app.set('view engine', 'handlebars');
 const Review = require('./models/review')
 const Comment = require('./models/comment')
 
-const reviews = require('./controllers/reviews')(app);
-const comments = require('./controllers/comments')(app);
-
-module.exports = app;
-
-const port = process.env.PORT || 3000;
-app.listen(port);
+const reviews = require('./controllers/reviews')(app, Review);
+const comments = require('./controllers/comments')(app, Comment);
 
 app.listen(3000, () => {
   console.log('App listening on port 3000!')
 })
-
