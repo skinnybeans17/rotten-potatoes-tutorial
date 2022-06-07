@@ -25,6 +25,12 @@ const comments = require('./controllers/comments')(app, Comment);
 
 module.exports = app;
 
-app.listen(3000, () => {
-  console.log('App listening on port 3000!')
-})
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
+
+const port = process.env.PORT || 3000;
+app.listen(port);
+
+//app.listen(3000, () => {
+//  console.log('App listening on port 3000!')
+//})
