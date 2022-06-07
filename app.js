@@ -12,8 +12,6 @@ app.use(methodOverride('_method'))
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-module.exports = app;
-
 //var reviews = [
     //{ title: "Great Review", movieTitle: "Batman II" },
     //{ title: "Awesome Movie", movieTitle: "Titanic" }
@@ -24,6 +22,8 @@ const Comment = require('./models/comment')
 
 const reviews = require('./controllers/reviews')(app, Review);
 const comments = require('./controllers/comments')(app, Comment);
+
+module.exports = app;
 
 app.listen(3000, () => {
   console.log('App listening on port 3000!')
