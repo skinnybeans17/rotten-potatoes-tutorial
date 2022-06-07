@@ -31,7 +31,7 @@ module.exports = function(app) {
     app.get('/reviews/:id', (req, res) => {
         console.log("review show")
         Review.findById(req.params.id).lean().then(review => {
-            Comment.find({ reviewId: req.params.id }).then(comments => {
+            Comment.find({ reviewId: req.params.id }).lean().then(comments => {
                 console.log(review)
                 res.render('reviews-show', { review: review, comments: comments })
             })
