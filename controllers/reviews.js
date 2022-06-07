@@ -6,7 +6,7 @@ const Comment = require('../models/comment');
 module.exports = function(app) {
 
     app.get('/', (req, res) => {
-      Review.find()
+      Review.find().lean()
         .then(reviews => {
           res.render('reviews-index', {reviews: reviews});
         })
@@ -30,7 +30,7 @@ module.exports = function(app) {
 
     app.get('/reviews/:id', (req, res) => {
         console.log("review show")
-        Review.findById(req.params.id).lean().then((review) => {
+        Review.findById(req.params.id).lean().then(review => {
             Comment.find({ reviewId: req.params.id }).then(comments => {
                 console.log(review)
                 res.render('reviews-show', { review: review, comments: comments })
